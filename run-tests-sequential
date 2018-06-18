@@ -1,0 +1,13 @@
+#!/bin/bash
+
+NUM_TESTS_RUN_SEQUENTIAL=10
+TEST_TO_RUN="coreos.ignition.v2.once"
+
+echo "Kola running $NUM_TESTS_RUN_SEQUENTIAL iterations of test $TEST_TO_RUN..."
+
+for i in `seq 1 $NUM_TESTS_RUN_SEQUENTIAL`;
+do
+	/home/rfairley/go/bin/kola run -p qemu $TEST_TO_RUN --qemu-image ./coreos_production_image.bin
+done
+
+echo "Done running sequential tests."

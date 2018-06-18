@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Run several tests as child processes. Would not recommend specifying more than
+# 10 tests to run locally in parallel (due to memory, and storage constraints
+# in /tmp).
+
+NUM_TESTS_RUN_PARALLEL=5
+TEST_TO_RUN="coreos.ignition.v2.once"
+
+echo "Kola running $NUM_TESTS_RUN_PARALLEL processes of test $TEST_TO_RUN..."
+
+for i in `seq 1 $NUM_TESTS_RUN_PARALLEL`;
+do
+	/home/rfairley/go/bin/kola run -p qemu $TEST_TO_RUN --qemu-image ./coreos_production_image.bin &
+	pids[${i}]=$!
+done
+
+for pid in ${pids[*]}; do
+	echo "Waiting for process $pid to exit..."
+	wait $pid
+done

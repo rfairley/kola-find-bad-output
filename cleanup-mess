@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Clean up processes if ran out of disk space or memory midway through kola tests.
+# - There may be more items needing cleaning. This is just enough to get running
+#   again if you ran out of space in /tmp or memory.
+# - Be careful before running that there are no conflicts with other processes
+#   or files that might be destroyed by running this script.
+
+# Run 'df' and 'pa -a' before and after - should clear up kola-related processes
+# and the /tmp folder.
+
+CLEANUP_MESS_PROCESSES_NAMES=("kola" "dnsmasq" "qemu-system-x86" \
+"dnsmasq <defunct>" "qemu-system-x86 <defunct>")
+
+CLEANUP_MESS_DIR_NAMES=("simple-etcd-.*" "mantle-ssh-.*")
+
+for process_name in "${CLEANUP_MESS_PROCESSES_NAMES[@]}"
+do
+  pkill --full --echo "$process_name"
+done
+
+for dir_name_regex in "${CLEANUP_MESS_DIR_NAMES[@]}"
+do
+  while read dir
+    do
+      echo "Removing /tmp/$dir"
+      sudo rm -r /tmp/"$dir";
+    done < <(ls /tmp | grep "$dir_name_regex")
+done

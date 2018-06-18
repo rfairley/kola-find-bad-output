@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while read f; do
+	kola check-console $f
+done < <(find -name "journal.txt")
