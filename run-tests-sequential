@@ -1,13 +1,17 @@
 #!/bin/bash
 
-NUM_TESTS_RUN_SEQUENTIAL=10
-TEST_TO_RUN="coreos.ignition.v2.once"
+# TODO: enter using command line.
+KFBO_NUM_TESTS=10
+KFBO_TEST_TO_RUN="coreos.ignition.v2.once"
 
-echo "Kola running $NUM_TESTS_RUN_SEQUENTIAL iterations of test $TEST_TO_RUN..."
+KFBO_KOLA_PATH="/home/$USER/go/bin/kola"
+KFBO_QEMU_IMAGE="./coreos_production_image.bin"
 
-for i in `seq 1 $NUM_TESTS_RUN_SEQUENTIAL`;
+echo "kfbo: kola running $KFBO_NUM_TESTS iterations of test $KFBO_TEST_TO_RUN..."
+
+for i in `seq 1 $KFBO_NUM_TESTS`;
 do
-	/home/rfairley/go/bin/kola run -p qemu $TEST_TO_RUN --qemu-image ./coreos_production_image.bin
+	$KFBO_KOLA_PATH run -p qemu $KFBO_TEST_TO_RUN --qemu-image $KFBO_QEMU_IMAGE
 done
 
-echo "Done running sequential tests."
+echo "kfbo: done running sequential tests."

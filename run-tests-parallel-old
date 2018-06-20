@@ -10,7 +10,7 @@ KFBO_OUTPUT_NUM_TESTS=5
 KFBO_TEST_TO_RUN="coreos.ignition.v2.once"
 
 KFBO_KOLA_PATH="/home/$USER/go/bin/kola"
-KFBO_QEMU_IMAGE="./coreos_production_image.bin"
+KFBO_QEMU_IMAGE="./coreos_production_image_old.bin"
 
 echo "kfbo: kola running $KFBO_OUTPUT_NUM_TESTS processes of test $KFBO_TEST_TO_RUN..."
 
